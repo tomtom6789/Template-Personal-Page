@@ -13,15 +13,23 @@ const image3 = document.getElementById('image3')
 
 
 
+
+
+// Dark or Light Images
+function imageMode(color){
+    image1.src = `img/undraw_feeling_proud_${color}.svg`
+    image2.src = `img/undraw_proud_coder_${color}.svg`
+    image3.src = `img/undraw_conceptual_idea_${color}.svg`
+}
+
 // Dark Mode styles
 function darkMode() {
     nav.style.backgroundColor = 'rgb(0 0 0 / 50%)'
     textBox.style.backgroundColor = 'rgb(255 255 255 / 50%)'
     toggleIcon.children[0].textContent = 'Dark Mode'
     toggleIcon.children[1].classList.replace('fa-sun','fa-moon')
-    image1.src = 'img/undraw_feeling_proud_dark.svg'
-    image2.src = 'img/undraw_proud_coder_dark.svg'
-    image3.src = 'img/undraw_conceptual_idea_dark.svg'
+    imageMode('dark')
+
 }
 
 
@@ -29,22 +37,21 @@ function darkMode() {
 function lightMode() {
     nav.style.backgroundColor = 'rgb(255 255 255 / 50%)'
     textBox.style.backgroundColor = 'rgb(0 0 0 / 50%)'
-    
     toggleIcon.children[0].textContent = 'Light Mode'
     toggleIcon.children[1].classList.replace('fa-moon','fa-sun')
-    image1.src = 'img/undraw_feeling_proud_light.svg'
-    image2.src = 'img/undraw_proud_coder_light.svg'
-    image3.src = 'img/undraw_conceptual_idea_light.svg'
+    imageMode('light')
 }
 
 // Switch theme Dyanamically
 function switchTheme(event){
-    console.log(event.target.checked)
+    // console.log(event.target.checked)
     if(event.target.checked){
         document.documentElement.setAttribute('data-theme', 'dark')
+        localStorage.setItem('theme', 'dark')
         darkMode()
     }else {
         document.documentElement.setAttribute('data-theme', 'light')
+        localStorage.setItem('theme', 'light')
         lightMode()
     }
 }
@@ -52,3 +59,18 @@ function switchTheme(event){
 
 // Even listener
 toggleSwitch.addEventListener('change', switchTheme)
+
+
+// Check Local Storage for Theme
+
+
+const currentTheme = localStorage.getItem('theme')
+console.log(currentTheme)
+
+if(currentTheme) {
+    document.documentElement.setAttribute('data-theme', currentTheme)
+    if(currentTheme === 'dark'){
+        toggleSwitch.checked = true;
+        darkMode()
+    }
+}
